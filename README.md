@@ -382,36 +382,6 @@ Le notebook a été conçu pour **Google Colab** (la cellule de montage de Drive
 | **Fuite de données (leakage)** | Information du test qui se retrouve indirectement dans l'entraînement |
 | **AAMI (EC57)** | Norme de regroupement des battements : N, S, V, F, Q |
 
----
-
-## 17. Questions d'entretien probables
-
-**Pourquoi un SVM avec noyau RBF ?**
-Les classes ne sont pas linéairement séparables dans l'espace des features. Le RBF capture des frontières non linéaires, et le SVM fonctionne bien avec un nombre modéré de features et des données de cette taille.
-
-**Pourquoi standardiser ?**
-Le SVM RBF repose sur des distances. Sans standardisation, les features à grande échelle (énergie, FFT) dominent les autres.
-
-**Pourquoi l'accuracy ne suffit pas ici ?**
-66,6 % des battements sont normaux. Prédire « Normal » partout donnerait déjà ≈ 67 % d'accuracy. On regarde donc le rappel par classe et le F1 macro.
-
-**Que fait `class_weight="balanced"` ?**
-Il pondère chaque classe de façon inversement proportionnelle à sa fréquence. Le rappel des classes rares monte, mais la précision baisse : plus de fausses alertes.
-
-**Quelle est la principale faiblesse méthodologique ?**
-Le split aléatoire par battement. Des battements du même patient sont dans le train et le test, donc les scores sont optimistes. Il faudrait un split inter-patients (`GroupKFold`, protocole DS1/DS2).
-
-**Pourquoi « Supraventriculaire » est-elle mal détectée ?**
-Son QRS ressemble à un QRS normal. Ce qui la distingue est son caractère prématuré, donc l'intervalle RR, que mes features ne contiennent pas.
-
-**Que ferais-tu pour l'améliorer ?**
-Dans l'ordre : évaluation inter-patients, features RR, optimisation des hyperparamètres avec validation croisée par groupes, filtrage du signal, et comparaison avec un modèle d'arbres et un CNN 1D.
-
-**Le modèle est-il utilisable en conditions réelles ?**
-Pas en l'état. Les positions des battements viennent des annotations (il faut un détecteur de pics R), l'évaluation n'est pas inter-patients, et la précision sur les classes rares est faible.
-
-**Quelle différence avec la norme AAMI ?**
-La norme regroupe en 5 classes (N, S, V, F, Q) et inclut les blocs de branche dans « N ». Mon regroupement isole les blocs et fusionne artefacts, annotations techniques et battements stimulés dans « Bruit ».
 
 ---
 
