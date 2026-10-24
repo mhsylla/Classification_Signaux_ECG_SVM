@@ -203,9 +203,3 @@ jupyter lab ECG_Classification.ipynb
 
 ---
 
-## Contexte academique
-
-Ce projet a ete realise dans le cadre du module **Data Science** a l'**Ynov Campus**, sous la supervision de **Monsieur Delpech**.
-
-Il a initialement ete execute sur **Google Colab** avec acces aux donnees via Google Drive.
-
